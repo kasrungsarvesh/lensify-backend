@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import com.lensify.response.ApiResponse;
 
 @RestControllerAdvice
@@ -39,6 +39,34 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>(
                         false,
                         e.getMessage(),      // <-- show real error
+                        null));
+    }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleDuplicateDatabase(
+            DataIntegrityViolationException ex) {
+
+        String message = "Duplicate data.";
+
+        Throwable cause = ex.getMostSpecificCause();
+
+        if (cause != null) {
+
+            String error = cause.getMessage();
+
+            if (error.contains("mobile_number")) {
+                message = "Mobile number already exists.";
+            } else if (error.contains("email")) {
+                message = "Email already exists.";
+            } else if (error.contains("alternate_phone")) {
+                message = "Alternate mobile number already exists.";
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>(
+                        false,
+                        message,
                         null));
     }
 

@@ -34,4 +34,25 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
     
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CustomerResponseDto>> getCustomerById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<CustomerResponseDto>> updateCustomer(
+            @PathVariable Long id,
+            @RequestBody CustomerRequestDto request) {
+
+        return ResponseEntity.ok(customerService.updateCustomer(id, request));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteCustomer(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(customerService.deleteCustomer(id));
+    }
 }

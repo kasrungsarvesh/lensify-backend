@@ -2,6 +2,7 @@ package com.lensify.service.impl;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lensify.dto.customer.CustomerRequestDto;
@@ -10,11 +11,8 @@ import com.lensify.entity.Customer;
 import com.lensify.repository.CustomerRepository;
 import com.lensify.response.ApiResponse;
 import com.lensify.service.CustomerService;
-
-
-
-
-import com.lensify.entity.Customer;
+import com.lensify.exception.DuplicateResourceException;
+import com.lensify.exception.ResourceNotFoundException;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -25,77 +23,186 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
+   @Override
+public ApiResponse<CustomerResponseDto> addCustomer(CustomerRequestDto request) {
+
+    Customer customer = new Customer();
+ // Check Mobile Number
+    if (customerRepository.findByMobileNumber(request.getMobileNumber()).isPresent()) {
+    	throw new DuplicateResourceException("Mobile number already exists.");
+    }
+
+    // Check Email
+    if (request.getEmail() != null &&
+        !request.getEmail().isBlank() &&
+        customerRepository.findByEmail(request.getEmail()).isPresent()) {
+
+    	throw new DuplicateResourceException("Email already exists.");
+    }
+
+    // Check Alternate Mobile
+    if (request.getAlternatePhone() != null &&
+        !request.getAlternatePhone().isBlank() &&
+        customerRepository.findByAlternatePhone(request.getAlternatePhone()).isPresent()) {
+
+    	throw new DuplicateResourceException("Alternate mobile number already exists.");
+    }
+    // Generate Customer Code
+    Customer lastCustomer = customerRepository.findTopByOrderByCustomerIdDesc();
+
+    if (lastCustomer == null || lastCustomer.getCustomerCode() == null) {
+        customer.setCustomerCode("CUST001");
+    } else {
+        String lastCode = lastCustomer.getCustomerCode(); // Example: CUST007
+        int number = Integer.parseInt(lastCode.replace("CUST", ""));
+        customer.setCustomerCode(String.format("CUST%03d", number + 1));
+    }
+
+    customer.setCustomerName(request.getCustomerName());
+    customer.setGender(request.getGender());
+    customer.setDateOfBirth(request.getDateOfBirth());
+    customer.setAge(request.getAge());
+    customer.setMobileNumber(request.getMobileNumber());
+    customer.setAlternatePhone(request.getAlternatePhone());
+    customer.setEmail(request.getEmail());
+    customer.setAddress(request.getAddress());
+    customer.setCity(request.getCity());
+    customer.setReferenceBy(request.getReferenceBy());
+    customer.setStatus(request.getStatus());
+
+    customer = customerRepository.save(customer);
+
+    CustomerResponseDto response = mapToDto(customer);
+
+    return new ApiResponse<>(
+            true,
+            "Customer added successfully.",
+            response
+    );
+}
+
     @Override
-    public ApiResponse<CustomerResponseDto> addCustomer(CustomerRequestDto request) {
+    public ApiResponse<List<CustomerResponseDto>> getAllCustomers() {
 
-        Customer customer = new Customer();
-
-        customer.setCustomerName(request.getCustomerName());
-        customer.setMobileNumber(request.getMobileNumber());
-        customer.setEmail(request.getEmail());
-        customer.setAddress(request.getAddress());
-
-        customer = customerRepository.save(customer);
-
-        CustomerResponseDto response = new CustomerResponseDto();
-
-        response.setCustomerId(customer.getCustomerId());
-        response.setCustomerName(customer.getCustomerName());
-        response.setMobileNumber(customer.getMobileNumber());
-        response.setEmail(customer.getEmail());
-        response.setAddress(customer.getAddress());
+        List<CustomerResponseDto> response = customerRepository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .toList();
 
         return new ApiResponse<>(
                 true,
-                "Customer added successfully.",
-                response
-        );
+                "Customers fetched successfully.",
+                response);
     }
 
     @Override
-	public ApiResponse<List<CustomerResponseDto>> getAllCustomers() {
+    public ApiResponse<CustomerResponseDto> getCustomerById(Long id) {
 
-	    List<Customer> customers = customerRepository.findAll();
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-	    List<CustomerResponseDto> response = customers.stream()
-	            .map(customer -> {
-	                CustomerResponseDto dto = new CustomerResponseDto();
+        return new ApiResponse<>(
+                true,
+                "Customer fetched successfully.",
+                mapToDto(customer));
+    }
 
-	                dto.setCustomerId(customer.getCustomerId());
-	                dto.setCustomerName(customer.getCustomerName());
-	                dto.setMobileNumber(customer.getMobileNumber());
-	                dto.setEmail(customer.getEmail());
-	                dto.setAddress(customer.getAddress());
+    @Override
+    public ApiResponse<CustomerResponseDto> updateCustomer(Long id, CustomerRequestDto request) {
 
-	                return dto;
-	            })
-	            .toList();
+    	if (customerRepository.existsByMobileNumberAndCustomerIdNot(
+    	        request.getMobileNumber(), id)) {
 
-	    return new ApiResponse<>(
-	            true,
-	            "Customers fetched successfully.",
-	            response
-	    );
-	}
+    	    throw new DuplicateResourceException("Mobile number already exists.");
+    	}
 
-	@Override
-	public ApiResponse<CustomerResponseDto> getCustomerById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    	if (request.getEmail() != null &&
+    	    !request.getEmail().isBlank() &&
+    	    customerRepository.existsByEmailAndCustomerIdNot(
+    	            request.getEmail(), id)) {
 
-	@Override
-	public ApiResponse<CustomerResponseDto> updateCustomer(Long id, CustomerRequestDto request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    	    throw new DuplicateResourceException("Email already exists.");
+    	}
 
-	@Override
-	public ApiResponse<String> deleteCustomer(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+    	if (request.getAlternatePhone() != null &&
+    	    !request.getAlternatePhone().isBlank() &&
+    	    customerRepository.existsByAlternatePhoneAndCustomerIdNot(
+    	            request.getAlternatePhone(), id)) {
 
+    	    throw new DuplicateResourceException("Alternate mobile number already exists.");
+    	}
+    	Customer customer = customerRepository.findById(id)
+    	        .orElseThrow(() ->
+    	            new ResourceNotFoundException("Customer does not exist."));
+
+//        customer.setCustomerCode(request.getCustomerCode());
+        customer.setCustomerName(request.getCustomerName());
+        customer.setGender(request.getGender());
+        customer.setDateOfBirth(request.getDateOfBirth());
+        customer.setAge(request.getAge());
+        customer.setMobileNumber(request.getMobileNumber());
+        customer.setAlternatePhone(request.getAlternatePhone());
+        customer.setEmail(request.getEmail());
+        customer.setAddress(request.getAddress());
+        customer.setCity(request.getCity());
+        customer.setReferenceBy(request.getReferenceBy());
+        customer.setStatus(request.getStatus());
+
+        try {
+
+            customer = customerRepository.save(customer);
+
+        } catch (DataIntegrityViolationException ex) {
+
+            throw new DuplicateResourceException(
+                    "Customer details already exist. Please use different mobile, email or alternate mobile."
+            );
+
+        }
+
+        return new ApiResponse<>(
+                true,
+                "Customer updated successfully.",
+                mapToDto(customer));
+    }
+
+    @Override
+    public ApiResponse<String> deleteCustomer(Long id) {
+
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        customerRepository.delete(customer);
+
+        return new ApiResponse<>(
+                true,
+                "Customer deleted successfully.",
+                null);
+    }
+
+    /**
+     * Convert Customer Entity to CustomerResponseDto
+     */
+    private CustomerResponseDto mapToDto(Customer customer) {
+
+        CustomerResponseDto dto = new CustomerResponseDto();
+
+        dto.setCustomerId(customer.getCustomerId());
+        dto.setCustomerCode(customer.getCustomerCode());
+        dto.setCustomerName(customer.getCustomerName());
+        dto.setGender(customer.getGender());
+        dto.setDateOfBirth(customer.getDateOfBirth());
+        dto.setAge(customer.getAge());
+        dto.setMobileNumber(customer.getMobileNumber());
+        dto.setAlternatePhone(customer.getAlternatePhone());
+        dto.setEmail(customer.getEmail());
+        dto.setAddress(customer.getAddress());
+        dto.setCity(customer.getCity());
+        dto.setReferenceBy(customer.getReferenceBy());
+        dto.setStatus(customer.getStatus());
+        dto.setCreatedAt(customer.getCreatedAt());
+        dto.setUpdatedAt(customer.getUpdatedAt());
+
+        return dto;
+    }
 }
