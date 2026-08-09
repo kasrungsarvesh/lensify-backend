@@ -17,5 +17,6 @@ public interface CustomerService {
     ApiResponse<CustomerResponseDto> updateCustomer(Long id, CustomerRequestDto request);
 
     ApiResponse<String> deleteCustomer(Long id);
+    ApiResponse<List<CustomerResponseDto>> searchCustomers(String keyword);
     
 }

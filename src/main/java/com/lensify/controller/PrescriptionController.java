@@ -52,6 +52,24 @@ public class PrescriptionController {
 
         return ResponseEntity.ok(prescriptionService.getAllPrescriptions(pageable, search));
     }
+    @GetMapping("/customer/{customerId}/count")
+    public ResponseEntity<ApiResponse<Long>> getPrescriptionCountByCustomer(
+            @PathVariable Long customerId) {
+
+        return ResponseEntity.ok(
+                prescriptionService.getPrescriptionCountByCustomer(customerId)
+        );
+    }
+    
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<ApiResponse<List<PrescriptionResponseDto>>>
+    getPrescriptionsByCustomer(
+            @PathVariable Long customerId) {
+
+        return ResponseEntity.ok(
+                prescriptionService.getPrescriptionsByCustomer(customerId)
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<PrescriptionResponseDto>> getPrescriptionById(@PathVariable Long id) {
@@ -68,5 +86,6 @@ public class PrescriptionController {
     public ResponseEntity<ApiResponse<String>> deletePrescription(@PathVariable Long id) {
         return ResponseEntity.ok(prescriptionService.deletePrescription(id));
     }
+    
 
 }

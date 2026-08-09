@@ -10,14 +10,26 @@ import com.lensify.response.ApiResponse;
 
 public interface PrescriptionService {
 
-    ApiResponse<PrescriptionResponseDto> createPrescription(PrescriptionRequestDto request);
+    ApiResponse<PrescriptionResponseDto> createPrescription(
+            PrescriptionRequestDto request);
 
-    ApiResponse<List<PrescriptionResponseDto>> getAllPrescriptions(Pageable pageable, String search);
+    ApiResponse<List<PrescriptionResponseDto>> getAllPrescriptions(
+            Pageable pageable,
+            String search);
 
-    ApiResponse<PrescriptionResponseDto> getPrescriptionById(Long id);
+    ApiResponse<PrescriptionResponseDto> getPrescriptionById(
+            Long id);
 
-    ApiResponse<PrescriptionResponseDto> updatePrescription(Long id, PrescriptionRequestDto request);
+    ApiResponse<PrescriptionResponseDto> updatePrescription(
+            Long id,
+            PrescriptionRequestDto request);
 
-    ApiResponse<String> deletePrescription(Long id);
-
+    ApiResponse<String> deletePrescription(
+            Long id);
+    
+    ApiResponse<Long> getPrescriptionCountByCustomer(Long customerId);
+    
+    ApiResponse<List<PrescriptionResponseDto>> getPrescriptionsByCustomer(
+            Long customerId
+    );
 }

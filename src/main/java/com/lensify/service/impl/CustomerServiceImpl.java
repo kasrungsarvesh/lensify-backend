@@ -1,6 +1,7 @@
 package com.lensify.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -49,13 +50,14 @@ public ApiResponse<CustomerResponseDto> addCustomer(CustomerRequestDto request) 
     }
     // Generate Customer Code
     Customer lastCustomer = customerRepository.findTopByOrderByCustomerIdDesc();
-
     if (lastCustomer == null || lastCustomer.getCustomerCode() == null) {
-        customer.setCustomerCode("CUST001");
+        customer.setCustomerCode("CUST000001");
     } else {
-        String lastCode = lastCustomer.getCustomerCode(); // Example: CUST007
+        String lastCode = lastCustomer.getCustomerCode(); // Example: CUST000010
         int number = Integer.parseInt(lastCode.replace("CUST", ""));
-        customer.setCustomerCode(String.format("CUST%03d", number + 1));
+        customer.setCustomerCode(
+            String.format("CUST%06d", number + 1)
+        );
     }
 
     customer.setCustomerName(request.getCustomerName());
@@ -99,12 +101,17 @@ public ApiResponse<CustomerResponseDto> addCustomer(CustomerRequestDto request) 
     public ApiResponse<CustomerResponseDto> getCustomerById(Long id) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Customer does not exist."
+                        )
+                );
 
         return new ApiResponse<>(
                 true,
                 "Customer fetched successfully.",
-                mapToDto(customer));
+                mapToDto(customer)
+        );
     }
 
     @Override
@@ -204,5 +211,30 @@ public ApiResponse<CustomerResponseDto> addCustomer(CustomerRequestDto request) 
         dto.setUpdatedAt(customer.getUpdatedAt());
 
         return dto;
+    }
+    
+    @Override
+    public ApiResponse<List<CustomerResponseDto>> searchCustomers(String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return new ApiResponse<>(
+                    true,
+                    "Please enter a search keyword.",
+                    List.of()
+            );
+        }
+
+        List<Customer> customers =
+                customerRepository.searchCustomers(keyword.trim());
+
+        List<CustomerResponseDto> result = customers.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+
+        return new ApiResponse<>(
+                true,
+                "Customers fetched successfully.",
+                result
+        );
     }
 }

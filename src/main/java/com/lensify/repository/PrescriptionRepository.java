@@ -1,5 +1,7 @@
 package com.lensify.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +13,9 @@ import com.lensify.entity.Prescription;
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
 
     Page<Prescription> findByCustomerCustomerNameContainingIgnoreCase(String name, Pageable pageable);
+    long countByCustomerCustomerId(Long customerId);
+    List<Prescription> findByCustomerCustomerIdOrderByPrescriptionDateDesc(
+            Long customerId
+    );
 
 }

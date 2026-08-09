@@ -1,0 +1,375 @@
+!SESSION 2026-08-08 17:13:12.919 -----------------------------------------------
+eclipse.buildId=4.40.0.20260604-0652
+java.version=21.0.12
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product -data C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 17:13:20.150
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 17:13:21.533
+!MESSAGE Logback config file: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.101.20251017-1242.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 17:13:21.927
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 17:13:21.927
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 17:13:22.324
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 17:13:22.324
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-08-08 17:13:31.329
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sarvesh kasrung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:13:31.376
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:13:31.381
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:13:31.473
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.014
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Resolved ripgrep path: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.015
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[lsp] GitHub Copilot Language Server 1.509.5 initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.016
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Set GITHUB_COPILOT_RIPGREP_PATH_OVERRIDE=C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.017
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Using tmpFolder for ripgrep: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.248
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] HTTP settings changed; resetting Undici dispatchers. {
+  proxy: 'none',
+  noProxyCount: 0,
+  proxyStrictSSL: true,
+  hasProxyAuthorization: false,
+  hasProxyKerberosServicePrincipal: false
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:13:35.249
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.250
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[certificates] Removed 8 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.251
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 184 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.322
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:35.977
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:36.796
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:36.796
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:36.813
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[BackgroundAgent] GitHub identity changed, clearing cached sessions {
+  hadPrevious: false,
+  hasCurrent: true,
+  cachedSessionCount: 0,
+  remoteDelegateCount: 0
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:13:37.139
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.220
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Local Diff Tracker] Initializing Local Diff Tracker
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.221
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Starting initialization...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.222
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Triggering local indexing...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.223
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Workspace indexing completed in 0.8082000000003973ms { status: 'ready', indexingTime: 0.8247000000001208 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.224
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Starting workspace indexing... { fileCount: 0 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.225
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Preparing files for indexing { totalFiles: 0, filesToIndex: 0, maxFileCount: 25000 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.226
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] EmbeddingsChunkSearch: initializing embeddings index for 0 files.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:13:38.440
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Initialization completed in 226.96889999999985ms {
+  outOfSyncFileCount: 0,
+  newFileCount: 0,
+  deletedFileCount: 0,
+  initTime: 0.5940000000000509,
+  dbPath: 'C:\\Users\\sarvesh kasrung\\AppData\\Local\\Temp\\github-copilot\\project-index\\lensify-backend.174ea4d8\\local-index.db'
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:13:49.428
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+!SESSION 2026-08-08 17:16:23.022 -----------------------------------------------
+eclipse.buildId=4.40.0.20260604-0652
+java.version=21.0.12
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product -data C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 17:16:30.420
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 17:16:32.026
+!MESSAGE Logback config file: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.101.20251017-1242.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 17:16:32.407
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 17:16:32.407
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 17:16:32.791
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 17:16:32.791
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:16:38.795
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-08-08 17:16:38.803
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sarvesh kasrung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:16:38.805
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 17:16:38.828
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.440
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Resolved ripgrep path: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.441
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[lsp] GitHub Copilot Language Server 1.509.5 initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.441
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Set GITHUB_COPILOT_RIPGREP_PATH_OVERRIDE=C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.442
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Using tmpFolder for ripgrep: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.535
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] HTTP settings changed; resetting Undici dispatchers. {
+  proxy: 'none',
+  noProxyCount: 0,
+  proxyStrictSSL: true,
+  hasProxyAuthorization: false,
+  hasProxyKerberosServicePrincipal: false
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:16:40.536
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.536
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 184 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.537
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[certificates] Removed 8 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:40.566
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:41.133
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:41.806
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:41.806
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:41.812
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[BackgroundAgent] GitHub identity changed, clearing cached sessions {
+  hadPrevious: false,
+  hasCurrent: true,
+  cachedSessionCount: 0,
+  remoteDelegateCount: 0
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:16:41.948
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.898
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Local Diff Tracker] Initializing Local Diff Tracker
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.899
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Triggering local indexing...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.899
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] EmbeddingsChunkSearch: initializing embeddings index for 0 files.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.899
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Workspace indexing completed in 0.3645000000001346ms { status: 'ready', indexingTime: 0.3710000000000946 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.900
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Starting initialization...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.900
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Starting workspace indexing... { fileCount: 0 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.900
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Preparing files for indexing { totalFiles: 0, filesToIndex: 0, maxFileCount: 25000 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 17:16:42.968
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Initialization completed in 72.90409999999974ms {
+  outOfSyncFileCount: 0,
+  newFileCount: 0,
+  deletedFileCount: 0,
+  initTime: 0.254399999999805,
+  dbPath: 'C:\\Users\\sarvesh kasrung\\AppData\\Local\\Temp\\github-copilot\\project-index\\lensify-backend.174ea4d8\\local-index.db'
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 17:16:50.170
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+!SESSION 2026-08-08 21:15:43.516 -----------------------------------------------
+eclipse.buildId=4.40.0.20260604-0652
+java.version=21.0.12
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 21:15:52.380
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-08-08 21:15:54.025
+!MESSAGE Logback config file: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.101.20251017-1242.xml
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 21:15:54.452
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 21:15:54.452
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2026-08-08 21:15:54.846
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2026-08-08 21:15:54.846
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 21:16:01.501
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 21:16:01.504
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-08-08 21:16:01.533
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-08-08 21:16:01.576
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sarvesh kasrung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.285
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Using tmpFolder for ripgrep: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.286
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Set GITHUB_COPILOT_RIPGREP_PATH_OVERRIDE=C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.286
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Resolved ripgrep path: C:\Users\sarvesh kasrung\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.286
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[lsp] GitHub Copilot Language Server 1.509.5 initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.408
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] HTTP settings changed; resetting Undici dispatchers. {
+  proxy: 'none',
+  noProxyCount: 0,
+  proxyStrictSSL: true,
+  hasProxyAuthorization: false,
+  hasProxyKerberosServicePrincipal: false
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 21:16:03.409
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.409
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[certificates] Removed 8 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.410
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 184 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:03.449
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:04.675
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:04.675
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:04.680
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[BackgroundAgent] GitHub identity changed, clearing cached sessions {
+  hadPrevious: false,
+  hasCurrent: true,
+  cachedSessionCount: 0,
+  remoteDelegateCount: 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:04.760
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 21:16:04.836
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.921
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Local Diff Tracker] Initializing Local Diff Tracker
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.922
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Triggering local indexing...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.922
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Workspace indexing completed in 0.2992999999996755ms { status: 'ready', indexingTime: 0.3050999999995838 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.923
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Preparing files for indexing { totalFiles: 0, filesToIndex: 0, maxFileCount: 25000 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.923
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Starting initialization...
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.923
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] EmbeddingsChunkSearch: initializing embeddings index for 0 files.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:05.924
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Embeddings Search] Starting workspace indexing... { fileCount: 0 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-08-08 21:16:06.038
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[Tfidf Search] Initialization completed in 121.13100000000031ms {
+  outOfSyncFileCount: 0,
+  newFileCount: 0,
+  deletedFileCount: 0,
+  initTime: 0.3396000000002459,
+  dbPath: 'C:\\Users\\sarvesh kasrung\\AppData\\Local\\Temp\\github-copilot\\project-index\\lensify-backend.174ea4d8\\local-index.db'
+}
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-08-08 21:16:13.457
+!MESSAGE [LS:GitHub Copilot Language Server][Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined

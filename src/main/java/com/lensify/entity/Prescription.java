@@ -1,9 +1,27 @@
 package com.lensify.entity;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "prescriptions")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Prescription extends BaseEntity {
 
     @Id
@@ -11,104 +29,83 @@ public class Prescription extends BaseEntity {
     @Column(name = "prescription_id")
     private Long prescriptionId;
 
+    // =========================
+    // CUSTOMER
+    // =========================
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Column(name = "left_eye_power")
-    private Double leftEyePower;
+    // =========================
+    // PRESCRIPTION INFORMATION
+    // =========================
 
-    @Column(name = "right_eye_power")
-    private Double rightEyePower;
-
-    @Column(length = 50)
-    private String cylinder;
-
-    @Column
-    private Integer axis;
-
-    @Column
-    private Double pd;
+    @Column(name = "prescription_date")
+    private LocalDate prescriptionDate;
 
     @Column(name = "doctor_name", length = 100)
     private String doctorName;
 
+    // =========================
+    // RIGHT EYE
+    // =========================
+
+    @Column(name = "right_eye_sph")
+    private Double rightEyeSph;
+
+    @Column(name = "right_eye_cyl")
+    private Double rightEyeCyl;
+
+    @Column(name = "right_eye_axis")
+    private Integer rightEyeAxis;
+
+    @Column(name = "right_eye_va", length = 20)
+    private String rightEyeVa;
+
+    // =========================
+    // LEFT EYE
+    // =========================
+
+    @Column(name = "left_eye_sph")
+    private Double leftEyeSph;
+
+    @Column(name = "left_eye_cyl")
+    private Double leftEyeCyl;
+
+    @Column(name = "left_eye_axis")
+    private Integer leftEyeAxis;
+
+    @Column(name = "left_eye_va", length = 20)
+    private String leftEyeVa;
+
+    // =========================
+    // PD
+    // =========================
+
+    @Column(name = "pd_distance")
+    private Double pdDistance;
+
+    @Column(name = "pd_near")
+    private Double pdNear;
+
+    // =========================
+    // LENS INFORMATION
+    // =========================
+
+    @Column(name = "lens_type", length = 50)
+    private String lensType;
+
+    @Column(name = "lens_index", length = 10)
+    private String lensIndex;
+
+    @Column(name = "coating", length = 100)
+    private String coating;
+
+    // =========================
+    // REMARKS
+    // =========================
+
     @Column(length = 500)
     private String remarks;
-
-    public Prescription() {
-    }
-
-    public Long getPrescriptionId() {
-        return prescriptionId;
-    }
-
-    public void setPrescriptionId(Long prescriptionId) {
-        this.prescriptionId = prescriptionId;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Double getLeftEyePower() {
-        return leftEyePower;
-    }
-
-    public void setLeftEyePower(Double leftEyePower) {
-        this.leftEyePower = leftEyePower;
-    }
-
-    public Double getRightEyePower() {
-        return rightEyePower;
-    }
-
-    public void setRightEyePower(Double rightEyePower) {
-        this.rightEyePower = rightEyePower;
-    }
-
-    public String getCylinder() {
-        return cylinder;
-    }
-
-    public void setCylinder(String cylinder) {
-        this.cylinder = cylinder;
-    }
-
-    public Integer getAxis() {
-        return axis;
-    }
-
-    public void setAxis(Integer axis) {
-        this.axis = axis;
-    }
-
-    public Double getPd() {
-        return pd;
-    }
-
-    public void setPd(Double pd) {
-        this.pd = pd;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
 }

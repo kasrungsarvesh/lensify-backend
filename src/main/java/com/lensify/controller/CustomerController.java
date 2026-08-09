@@ -28,6 +28,14 @@ public class CustomerController {
         return customerService.addCustomer(request);
     }
     
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<CustomerResponseDto>>> searchCustomers(
+            @RequestParam String keyword) {
+
+        return ResponseEntity.ok(
+                customerService.searchCustomers(keyword)
+        );
+    }
     @GetMapping
     public ResponseEntity<ApiResponse<List<CustomerResponseDto>>> getAllCustomers() {
 
