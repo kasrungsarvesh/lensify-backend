@@ -20,6 +20,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Verify Java version
+        run: |
+          java -version
+          ./mvnw -version
+
       - name: Build Spring Boot application
         run: |
           chmod +x mvnw
