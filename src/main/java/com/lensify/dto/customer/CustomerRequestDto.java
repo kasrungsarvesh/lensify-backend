@@ -16,10 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerRequestDto {
 
-    // =========================
-    // CUSTOMER INFORMATION
-    // =========================
-
+   
     @NotBlank(message = "Customer name is required.")
     private String customerName;
 
@@ -30,9 +27,7 @@ public class CustomerRequestDto {
     private Integer age;
 
 
-    // =========================
-    // MOBILE INFORMATION
-    // =========================
+
 
     @NotBlank(message = "Mobile number is required.")
     @Pattern(
@@ -48,10 +43,6 @@ public class CustomerRequestDto {
     private String alternatePhone;
 
 
-    // =========================
-    // CONTACT INFORMATION
-    // =========================
-
     @Email(message = "Invalid email.")
     private String email;
 
@@ -61,10 +52,6 @@ public class CustomerRequestDto {
 
     private String referenceBy;
 
-
-    // =========================
-    // STATUS
-    // =========================
 
     @NotNull(message = "Status is required.")
     private Boolean status;

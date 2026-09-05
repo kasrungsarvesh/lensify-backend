@@ -37,3 +37,43 @@
 2026-08-08 15:46:09.987: [INFO] BookmarksLoadDropped droppedNodes=0
 2026-08-08 15:46:09.987: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
 2026-08-08 15:49:40.450: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 06:46:00.969: [INFO] CurrentProfilePath: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 06:46:00.969: [INFO] Profiles total count: 1
+2026-08-22 06:46:00.969: [INFO] Profile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-08T11:44:06.385Z
+2026-08-22 06:46:00.969: [INFO] LastUsedProfileDir: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 06:46:00.969: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-08T11:44:06.385Z
+2026-08-22 06:46:00.969: [INFO] OnDoneLoading sync enabled: 0
+2026-08-22 06:46:00.969: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-22 06:46:00.969: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-22 06:46:00.969: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 06:46:39.810: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 15:45:13.393: [INFO] CurrentProfilePath: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 15:45:13.393: [INFO] Profiles total count: 1
+2026-08-22 15:45:13.393: [INFO] Profile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-08-22 15:45:13.393: [INFO] LastUsedProfileDir: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 15:45:13.393: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-08-22 15:45:13.393: [INFO] OnDoneLoading sync enabled: 0
+2026-08-22 15:45:13.393: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-22 15:45:13.393: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-22 15:45:13.393: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 15:46:51.433: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-31 10:52:28.084: [INFO] CurrentProfilePath: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-31 10:52:28.084: [INFO] Profiles total count: 1
+2026-08-31 10:52:28.084: [INFO] Profile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-08-31 10:52:28.084: [INFO] LastUsedProfileDir: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-31 10:52:28.084: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-08-31 10:52:28.084: [INFO] OnDoneLoading sync enabled: 0
+2026-08-31 10:52:28.084: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-31 10:52:28.084: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-31 10:52:28.084: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-31 10:53:01.218: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-09-04 14:34:46.587: [INFO] CurrentProfilePath: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-09-04 14:34:46.587: [INFO] Profiles total count: 1
+2026-09-04 14:34:46.587: [INFO] Profile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-09-04 14:34:46.587: [INFO] LastUsedProfileDir: C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-09-04 14:34:46.587: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\sarvesh kasrung\OneDrive\Desktop\lensify-backend\lensify-backend\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T06:46:17.069Z
+2026-09-04 14:34:46.587: [INFO] OnDoneLoading sync enabled: 0
+2026-09-04 14:34:46.587: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-09-04 14:34:46.587: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-09-04 14:34:46.587: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-09-04 14:35:17.425: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1

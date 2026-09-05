@@ -12,14 +12,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "prescriptions")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Prescription extends BaseEntity {
@@ -29,17 +29,13 @@ public class Prescription extends BaseEntity {
     @Column(name = "prescription_id")
     private Long prescriptionId;
 
-    // =========================
-    // CUSTOMER
-    // =========================
+  
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    // =========================
-    // PRESCRIPTION INFORMATION
-    // =========================
+  
 
     @Column(name = "prescription_date")
     private LocalDate prescriptionDate;
@@ -47,9 +43,7 @@ public class Prescription extends BaseEntity {
     @Column(name = "doctor_name", length = 100)
     private String doctorName;
 
-    // =========================
-    // RIGHT EYE
-    // =========================
+   
 
     @Column(name = "right_eye_sph")
     private Double rightEyeSph;
@@ -63,9 +57,7 @@ public class Prescription extends BaseEntity {
     @Column(name = "right_eye_va", length = 20)
     private String rightEyeVa;
 
-    // =========================
-    // LEFT EYE
-    // =========================
+
 
     @Column(name = "left_eye_sph")
     private Double leftEyeSph;
@@ -79,9 +71,7 @@ public class Prescription extends BaseEntity {
     @Column(name = "left_eye_va", length = 20)
     private String leftEyeVa;
 
-    // =========================
-    // PD
-    // =========================
+
 
     @Column(name = "pd_distance")
     private Double pdDistance;
@@ -89,9 +79,7 @@ public class Prescription extends BaseEntity {
     @Column(name = "pd_near")
     private Double pdNear;
 
-    // =========================
-    // LENS INFORMATION
-    // =========================
+ 
 
     @Column(name = "lens_type", length = 50)
     private String lensType;
@@ -102,9 +90,7 @@ public class Prescription extends BaseEntity {
     @Column(name = "coating", length = 100)
     private String coating;
 
-    // =========================
-    // REMARKS
-    // =========================
+
 
     @Column(length = 500)
     private String remarks;

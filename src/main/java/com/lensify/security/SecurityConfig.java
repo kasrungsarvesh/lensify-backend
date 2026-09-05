@@ -62,6 +62,14 @@ public class SecurityConfig {
                     // OWNER, ADMIN & EMPLOYEE
                     .requestMatchers("/api/v1/customer/**")
                     .hasAnyRole("OWNER", "ADMIN", "EMPLOYEE")
+                    
+                    
+                    // Allow unauthenticated user registration (POST /api/v1/users)
+                    .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+
+                    // OWNER & ADMIN - User Management (all other user endpoints)
+                    .requestMatchers("/api/v1/users/**")
+                    .hasAnyRole("OWNER", "ADMIN")
 
                     // Any logged-in user
                     .anyRequest().authenticated()
