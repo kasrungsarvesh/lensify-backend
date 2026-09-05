@@ -2,9 +2,6 @@ package com.lensify.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,60 +21,81 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    // =====================================================
+    // CREATE PAYMENT
+    // =====================================================
+
     @PostMapping
-    public ApiResponse<PaymentResponseDto> createPayment(@Validated @RequestBody PaymentRequestDto request) {
+    public ApiResponse<PaymentResponseDto> createPayment(
+            @Validated @RequestBody PaymentRequestDto request) {
+
         return paymentService.createPayment(request);
     }
 
+    // =====================================================
+    // GET ALL PAYMENTS
+    // =====================================================
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PaymentResponseDto>>> getAllPayments(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "paymentId,desc") String sort
-    ) {
+    public ResponseEntity<ApiResponse<List<PaymentResponseDto>>>
+    getAllPayments() {
 
-        String[] sortParts = sort.split(",");
-        Sort.Direction direction = Sort.Direction.DESC;
-        String sortField = "paymentId";
-
-        if (sortParts.length > 0 && !sortParts[0].isBlank()) {
-            sortField = sortParts[0];
-        }
-        if (sortParts.length > 1) {
-            direction = "desc".equalsIgnoreCase(sortParts[1]) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        }
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
-
-        return ResponseEntity.ok(paymentService.getAllPayments(pageable));
+        return ResponseEntity.ok(
+                paymentService.getAllPayments()
+        );
     }
 
-    @GetMapping("/bill/{billId}")
-    public ResponseEntity<ApiResponse<List<PaymentResponseDto>>> getPaymentsByBillId(
-            @PathVariable Long billId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paymentId"));
-
-        return ResponseEntity.ok(paymentService.getPaymentsByBillId(billId, pageable));
-    }
+    // =====================================================
+    // GET PAYMENT BY ID
+    // =====================================================
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PaymentResponseDto>> getPaymentById(@PathVariable Long id) {
-        return ResponseEntity.ok(paymentService.getPaymentById(id));
+    public ResponseEntity<ApiResponse<PaymentResponseDto>>
+    getPaymentById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                paymentService.getPaymentById(id)
+        );
     }
+
+    // =====================================================
+    // GET PAYMENTS BY BILL
+    // =====================================================
+
+    @GetMapping("/bill/{billId}")
+    public ResponseEntity<ApiResponse<List<PaymentResponseDto>>>
+    getPaymentsByBill(@PathVariable Long billId) {
+
+        return ResponseEntity.ok(
+                paymentService.getPaymentsByBill(billId)
+        );
+    }
+
+    // =====================================================
+    // UPDATE PAYMENT
+    // =====================================================
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<PaymentResponseDto>> updatePayment(@PathVariable Long id,
-                                                                         @RequestBody PaymentRequestDto request) {
-        return ResponseEntity.ok(paymentService.updatePayment(id, request));
+    public ResponseEntity<ApiResponse<PaymentResponseDto>>
+    updatePayment(
+            @PathVariable Long id,
+            @RequestBody PaymentRequestDto request) {
+
+        return ResponseEntity.ok(
+                paymentService.updatePayment(id, request)
+        );
     }
+
+    // =====================================================
+    // DELETE PAYMENT
+    // =====================================================
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deletePayment(@PathVariable Long id) {
-        return ResponseEntity.ok(paymentService.deletePayment(id));
-    }
+    public ResponseEntity<ApiResponse<String>>
+    deletePayment(@PathVariable Long id) {
 
+        return ResponseEntity.ok(
+                paymentService.deletePayment(id)
+        );
+    }
 }

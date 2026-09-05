@@ -4,10 +4,17 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemRequestDto {
 
-    @NotNull(message = "Lens id is required")
+    private Long productId;
+
     private Long lensId;
 
     @NotNull(message = "Quantity is required")
@@ -17,29 +24,4 @@ public class OrderItemRequestDto {
     @NotNull(message = "Price is required")
     @Min(value = 0, message = "Price must be non-negative")
     private BigDecimal price;
-
-    public Long getLensId() {
-        return lensId;
-    }
-
-    public void setLensId(Long lensId) {
-        this.lensId = lensId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
 }

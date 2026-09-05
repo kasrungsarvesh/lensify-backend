@@ -21,6 +21,7 @@ import com.lensify.repository.CustomerRepository;
 import com.lensify.repository.OrderRepository;
 import com.lensify.response.ApiResponse;
 import com.lensify.service.BillService;
+import com.lensify.repository.PaymentRepository;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -30,13 +31,19 @@ public class BillServiceImpl implements BillService {
     private final BillRepository billRepository;
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
+    
+    
+    public BillServiceImpl(
+            BillRepository billRepository,
+            CustomerRepository customerRepository,
+            OrderRepository orderRepository,
+            PaymentRepository paymentRepository) {
 
-    public BillServiceImpl(BillRepository billRepository,
-                           CustomerRepository customerRepository,
-                           OrderRepository orderRepository) {
         this.billRepository = billRepository;
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
@@ -170,17 +177,57 @@ public class BillServiceImpl implements BillService {
     }
 
     private BillResponseDto toDto(Bill bill) {
+
         BillResponseDto dto = new BillResponseDto();
 
         dto.setBillId(bill.getBillId());
-        dto.setCustomerId(bill.getCustomer() == null ? null : bill.getCustomer().getCustomerId());
-        dto.setCustomerName(bill.getCustomer() == null ? null : bill.getCustomer().getCustomerName());
-        dto.setOrderId(bill.getOrder() == null ? null : bill.getOrder().getOrderId());
+
+        dto.setCustomerId(
+                bill.getCustomer() == null
+                        ? null
+                        : bill.getCustomer().getCustomerId()
+        );
+
+        dto.setCustomerName(
+                bill.getCustomer() == null
+                        ? null
+                        : bill.getCustomer().getCustomerName()
+        );
+
+        dto.setOrderId(
+                bill.getOrder() == null
+                        ? null
+                        : bill.getOrder().getOrderId()
+        );
+
         dto.setBillDate(bill.getBillDate());
+
         dto.setSubtotal(bill.getSubtotal());
         dto.setDiscount(bill.getDiscount());
         dto.setGst(bill.getGst());
         dto.setTotal(bill.getTotal());
+
+        BigDecimal paidAmount = paymentRepository
+                .findByBillBillId(bill.getBillId())
+                .stream()
+                .map(payment -> payment.getAmount() == null
+                        ? BigDecimal.ZERO
+                        : payment.getAmount())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal total = bill.getTotal() == null
+                ? BigDecimal.ZERO
+                : bill.getTotal();
+
+        BigDecimal dueAmount = total.subtract(paidAmount);
+
+        if (dueAmount.compareTo(BigDecimal.ZERO) < 0) {
+            dueAmount = BigDecimal.ZERO;
+        }
+
+        dto.setPaidAmount(paidAmount);
+        dto.setDueAmount(dueAmount);
+
         dto.setStatus(bill.getStatus());
 
         return dto;

@@ -62,7 +62,7 @@ public class SecurityConfig {
                     // OWNER, ADMIN & EMPLOYEE
                     .requestMatchers("/api/v1/customer/**")
                     .hasAnyRole("OWNER", "ADMIN", "EMPLOYEE")
-                    
+
                     
                     // Allow unauthenticated user registration (POST /api/v1/users)
                     .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
