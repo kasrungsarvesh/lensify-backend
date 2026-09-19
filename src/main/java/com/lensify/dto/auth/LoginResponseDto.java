@@ -1,5 +1,12 @@
 package com.lensify.dto.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginResponseDto {
 
     private Long userId;
@@ -7,62 +14,12 @@ public class LoginResponseDto {
     private String fullName;
 
     private String username;
+    private String email;
+    private String phoneNumber;
 
     private String role;
     private String token;
 
-    public LoginResponseDto() {
-    }
-
-    public LoginResponseDto(Long userId,
-                            String fullName,
-                            String username,
-                            String role) {
-
-        this.userId = userId;
-        this.fullName = fullName;
-        this.username = username;
-        this.role = role;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+   
 
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lensify.dto.payment.PaymentRequestDto;
 import com.lensify.dto.payment.PaymentResponseDto;
 import com.lensify.entity.Bill;
+import com.lensify.entity.Order;
 import com.lensify.entity.Payment;
 import com.lensify.repository.BillRepository;
 import com.lensify.repository.PaymentRepository;
@@ -31,46 +32,64 @@ public class PaymentServiceImpl implements PaymentService {
         this.billRepository = billRepository;
     }
 
+    // =========================================================
+    // CREATE PAYMENT
+    // =========================================================
+
     @Override
     @Transactional
     public ApiResponse<PaymentResponseDto> createPayment(
             PaymentRequestDto request) {
 
-        // Find bill
         Bill bill = billRepository.findById(request.getBillId())
-                .orElseThrow(() ->
-                        new RuntimeException("Bill not found"));
+                .orElseThrow(() -> new RuntimeException("Bill not found"));
 
-        BigDecimal paymentAmount = request.getAmount() == null
-                ? BigDecimal.ZERO
-                : request.getAmount();
-
-        BigDecimal billTotal = bill.getTotal() == null
-                ? BigDecimal.ZERO
-                : bill.getTotal();
-
-        // Get all previous payments
-        BigDecimal alreadyPaid = paymentRepository
-                .findByBillBillId(bill.getBillId())
-                .stream()
-                .map(payment -> payment.getAmount() == null
+        BigDecimal paymentAmount =
+                request.getAmount() == null
                         ? BigDecimal.ZERO
-                        : payment.getAmount())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                        : request.getAmount();
 
-        // Calculate remaining amount
+        if (paymentAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException(
+                    "Payment amount cannot be negative.");
+        }
+
+        BigDecimal billTotal =
+                bill.getTotal() == null
+                        ? BigDecimal.ZERO
+                        : bill.getTotal();
+
+        // ---------------------------------------------------------
+        // Existing payments
+        // ---------------------------------------------------------
+
+        BigDecimal alreadyPaid =
+                paymentRepository
+                        .findByBillBillId(bill.getBillId())
+                        .stream()
+                        .map(payment ->
+                                payment.getAmount() == null
+                                        ? BigDecimal.ZERO
+                                        : payment.getAmount())
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add);
+
         BigDecimal remainingAmount =
                 billTotal.subtract(alreadyPaid);
 
-        // Prevent overpayment
         if (paymentAmount.compareTo(remainingAmount) > 0) {
+
             throw new RuntimeException(
                     "Payment amount cannot exceed due amount. "
                     + "Remaining due: ₹"
                     + remainingAmount);
         }
 
+        // ---------------------------------------------------------
         // Create payment
+        // ---------------------------------------------------------
+
         Payment payment = new Payment();
 
         payment.setBill(bill);
@@ -78,76 +97,85 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setPaymentType(
                 request.getPaymentType() == null
                         ? "CASH"
-                        : request.getPaymentType()
-        );
+                        : request.getPaymentType());
 
         payment.setAmount(paymentAmount);
 
         payment.setPaymentDate(LocalDateTime.now());
 
-        // Calculate total paid after this payment
+        // ---------------------------------------------------------
+        // Calculate final payment status
+        // ---------------------------------------------------------
+
         BigDecimal totalPaid =
                 alreadyPaid.add(paymentAmount);
 
-        // Calculate bill status
-        String billStatus;
+        String status =
+                calculatePaymentStatus(
+                        totalPaid,
+                        billTotal);
 
-        if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
+        payment.setStatus(status);
 
-            billStatus = "PENDING";
-
-        } else if (totalPaid.compareTo(billTotal) >= 0) {
-
-            billStatus = "PAID";
-
-        } else {
-
-            billStatus = "PARTIAL";
-        }
-
-        payment.setStatus(billStatus);
-
-        // Save payment
         payment = paymentRepository.save(payment);
 
-        // Update bill status
-        bill.setStatus(billStatus);
+        // ---------------------------------------------------------
+        // Update BILL status
+        // ---------------------------------------------------------
+
+        bill.setStatus(status);
 
         billRepository.save(bill);
+
+        // ---------------------------------------------------------
+        // IMPORTANT:
+        // Update ORDER status also
+        // ---------------------------------------------------------
+
+        updateOrderStatus(bill, status);
 
         return new ApiResponse<>(
                 true,
                 "Payment created successfully.",
-                toDto(payment)
-        );
+                toDto(payment));
     }
+
+    // =========================================================
+    // GET PAYMENT BY ID
+    // =========================================================
 
     @Override
     public ApiResponse<PaymentResponseDto> getPaymentById(
             Long paymentId) {
 
-        Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
+        Payment payment =
+                paymentRepository.findById(paymentId)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Payment not found"));
 
         return new ApiResponse<>(
                 true,
                 "Payment fetched successfully.",
-                toDto(payment)
-        );
+                toDto(payment));
     }
+
+    // =========================================================
+    // GET PAYMENTS BY BILL
+    // =========================================================
 
     @Override
     public ApiResponse<List<PaymentResponseDto>> getPaymentsByBill(
             Long billId) {
 
-        // Make sure bill exists
         billRepository.findById(billId)
-                .orElseThrow(() ->
-                        new RuntimeException("Bill not found"));
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Bill not found"));
 
         List<PaymentResponseDto> payments =
-                paymentRepository.findByBillBillId(billId)
+                paymentRepository
+                        .findByBillBillId(billId)
                         .stream()
                         .map(this::toDto)
                         .collect(Collectors.toList());
@@ -155,9 +183,12 @@ public class PaymentServiceImpl implements PaymentService {
         return new ApiResponse<>(
                 true,
                 "Payments fetched successfully.",
-                payments
-        );
+                payments);
     }
+
+    // =========================================================
+    // GET ALL PAYMENTS
+    // =========================================================
 
     @Override
     public ApiResponse<List<PaymentResponseDto>> getAllPayments() {
@@ -171,9 +202,12 @@ public class PaymentServiceImpl implements PaymentService {
         return new ApiResponse<>(
                 true,
                 "Payments fetched successfully.",
-                payments
-        );
+                payments);
     }
+
+    // =========================================================
+    // UPDATE PAYMENT
+    // =========================================================
 
     @Override
     @Transactional
@@ -181,22 +215,36 @@ public class PaymentServiceImpl implements PaymentService {
             Long paymentId,
             PaymentRequestDto request) {
 
-        Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
+        Payment payment =
+                paymentRepository.findById(paymentId)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Payment not found"));
 
-        Bill bill = payment.getBill();
+        Bill oldBill = payment.getBill();
+
+        // ---------------------------------------------------------
+        // If bill is changed
+        // ---------------------------------------------------------
+
+        Bill bill = oldBill;
 
         if (request.getBillId() != null
                 && !request.getBillId()
-                        .equals(bill.getBillId())) {
+                        .equals(oldBill.getBillId())) {
 
-            bill = billRepository.findById(request.getBillId())
-                    .orElseThrow(() ->
-                            new RuntimeException("Bill not found"));
+            bill = billRepository.findById(
+                    request.getBillId())
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Bill not found"));
 
             payment.setBill(bill);
         }
+
+        // ---------------------------------------------------------
+        // Update payment fields
+        // ---------------------------------------------------------
 
         if (request.getPaymentType() != null) {
             payment.setPaymentType(
@@ -204,109 +252,166 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         if (request.getAmount() != null) {
+
+            if (request.getAmount()
+                    .compareTo(BigDecimal.ZERO) < 0) {
+
+                throw new RuntimeException(
+                        "Payment amount cannot be negative.");
+            }
+
             payment.setAmount(
                     request.getAmount());
         }
 
-        // Recalculate all payments for the bill
-        List<Payment> payments =
-                paymentRepository.findByBillBillId(
-                        bill.getBillId());
+        // ---------------------------------------------------------
+        // Save first so calculation uses latest payment amount
+        // ---------------------------------------------------------
 
-        BigDecimal totalPaid = payments.stream()
-                .map(p -> p.getAmount() == null
-                        ? BigDecimal.ZERO
-                        : p.getAmount())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        paymentRepository.save(payment);
 
-        // Calculate status
-        BigDecimal billTotal = bill.getTotal() == null
-                ? BigDecimal.ZERO
-                : bill.getTotal();
+        // ---------------------------------------------------------
+        // Recalculate old bill if payment was moved
+        // ---------------------------------------------------------
 
-        String status;
+        if (!oldBill.getBillId()
+                .equals(bill.getBillId())) {
 
-        if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
-
-            status = "PENDING";
-
-        } else if (totalPaid.compareTo(billTotal) >= 0) {
-
-            status = "PAID";
-
-        } else {
-
-            status = "PARTIAL";
+            recalculateBillAndOrderStatus(oldBill);
         }
+
+        // ---------------------------------------------------------
+        // Recalculate new bill
+        // ---------------------------------------------------------
+
+        String status =
+                recalculateBillAndOrderStatus(bill);
 
         payment.setStatus(status);
 
-        payment = paymentRepository.save(payment);
-
-        bill.setStatus(status);
-        billRepository.save(bill);
+        paymentRepository.save(payment);
 
         return new ApiResponse<>(
                 true,
                 "Payment updated successfully.",
-                toDto(payment)
-        );
+                toDto(payment));
     }
+
+    // =========================================================
+    // DELETE PAYMENT
+    // =========================================================
 
     @Override
     @Transactional
     public ApiResponse<String> deletePayment(
             Long paymentId) {
 
-        Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() ->
-                        new RuntimeException("Payment not found"));
+        Payment payment =
+                paymentRepository.findById(paymentId)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Payment not found"));
 
         Bill bill = payment.getBill();
 
         paymentRepository.delete(payment);
 
-        // Recalculate bill status after deleting payment
-        List<Payment> remainingPayments =
-                paymentRepository.findByBillBillId(
-                        bill.getBillId());
-
-        BigDecimal totalPaid = remainingPayments.stream()
-                .map(p -> p.getAmount() == null
-                        ? BigDecimal.ZERO
-                        : p.getAmount())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal billTotal = bill.getTotal() == null
-                ? BigDecimal.ZERO
-                : bill.getTotal();
-
-        String status;
-
-        if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
-
-            status = "PENDING";
-
-        } else if (totalPaid.compareTo(billTotal) >= 0) {
-
-            status = "PAID";
-
-        } else {
-
-            status = "PARTIAL";
-        }
-
-        bill.setStatus(status);
-        billRepository.save(bill);
+        // Recalculate bill/order after deletion
+        recalculateBillAndOrderStatus(bill);
 
         return new ApiResponse<>(
                 true,
                 "Payment deleted successfully.",
-                null
-        );
+                null);
     }
 
-    private PaymentResponseDto toDto(Payment payment) {
+    // =========================================================
+    // CALCULATE STATUS
+    // =========================================================
+
+    private String calculatePaymentStatus(
+            BigDecimal totalPaid,
+            BigDecimal billTotal) {
+
+        if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
+
+            return "PENDING";
+
+        } else if (totalPaid.compareTo(billTotal) >= 0) {
+
+            return "PAID";
+
+        } else {
+
+            return "PARTIAL";
+        }
+    }
+
+    // =========================================================
+    // UPDATE BILL + ORDER STATUS
+    // =========================================================
+
+    private void updateOrderStatus(
+            Bill bill,
+            String status) {
+
+        if (bill.getOrder() != null) {
+
+            Order order = bill.getOrder();
+
+            order.setStatus(status);
+        }
+    }
+
+    // =========================================================
+    // RECALCULATE BILL + ORDER
+    // =========================================================
+
+    private String recalculateBillAndOrderStatus(
+            Bill bill) {
+
+        List<Payment> payments =
+                paymentRepository
+                        .findByBillBillId(
+                                bill.getBillId());
+
+        BigDecimal totalPaid =
+                payments.stream()
+                        .map(payment ->
+                                payment.getAmount() == null
+                                        ? BigDecimal.ZERO
+                                        : payment.getAmount())
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add);
+
+        BigDecimal billTotal =
+                bill.getTotal() == null
+                        ? BigDecimal.ZERO
+                        : bill.getTotal();
+
+        String status =
+                calculatePaymentStatus(
+                        totalPaid,
+                        billTotal);
+
+        // Update bill
+        bill.setStatus(status);
+
+        billRepository.save(bill);
+
+        // Update order
+        updateOrderStatus(bill, status);
+
+        return status;
+    }
+
+    // =========================================================
+    // DTO MAPPING
+    // =========================================================
+
+    private PaymentResponseDto toDto(
+            Payment payment) {
 
         PaymentResponseDto dto =
                 new PaymentResponseDto();

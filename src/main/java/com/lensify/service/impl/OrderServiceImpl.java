@@ -115,6 +115,21 @@ public class OrderServiceImpl implements OrderService {
                                             "Product not found"
                                     ));
 
+                    validateActiveProduct(product);
+                    validateProductStock(
+                            product,
+                            itemRequest.getQuantity()
+                    );
+
+                    // Deduct stock only when the order is being created.
+                    // Product selection in the frontend does not change stock.
+                    product.setStockQuantity(
+                            product.getStockQuantity()
+                                    - itemRequest.getQuantity()
+                    );
+
+                    productRepository.save(product);
+
                     orderItem.setProduct(product);
                     orderItem.setLens(null);
                 }
@@ -133,6 +148,18 @@ public class OrderServiceImpl implements OrderService {
                                     ));
 
                     validateActiveLens(lens);
+                    validateLensStock(
+                            lens,
+                            itemRequest.getQuantity()
+                    );
+
+                    // Deduct lens stock only when the order is created.
+                    // Selecting a lens in the frontend does not change stock.
+                    lens.setStock(
+                            lens.getStock() - itemRequest.getQuantity()
+                    );
+
+                    lensRepository.save(lens);
 
                     orderItem.setLens(lens);
                     orderItem.setProduct(null);
@@ -299,15 +326,66 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // --------------------------------------------------------
-        // REMOVE OLD ITEMS
+        // RESTORE STOCK FROM THE EXISTING ORDER
         // --------------------------------------------------------
+        //
+        // Example:
+        // Original receipt quantity = 2
+        // Stock after original sale = 10
+        //
+        // Before applying the edited receipt, return the original
+        // quantity to stock:
+        // 10 + 2 = 12
+        //
+        // Then the new quantity will be deducted below.
+        //
+        // Because this method is @Transactional, if anything fails
+        // later, the complete update (including stock changes) rolls
+        // back.
 
+        for (OrderItem oldItem : order.getItems()) {
+
+            if (oldItem.getProduct() != null) {
+
+                Product oldProduct = oldItem.getProduct();
+
+                Integer currentStock =
+                        oldProduct.getStockQuantity() == null
+                                ? 0
+                                : oldProduct.getStockQuantity();
+
+                oldProduct.setStockQuantity(
+                        currentStock + oldItem.getQuantity()
+                );
+
+                productRepository.save(oldProduct);
+            }
+
+            if (oldItem.getLens() != null) {
+
+                Lens oldLens = oldItem.getLens();
+
+                Integer currentStock =
+                        oldLens.getStock() == null
+                                ? 0
+                                : oldLens.getStock();
+
+                oldLens.setStock(
+                        currentStock + oldItem.getQuantity()
+                );
+
+                lensRepository.save(oldLens);
+            }
+        }
+
+        // Remove old order items only after their product stock has
+        // been restored.
         order.getItems().clear();
 
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         // --------------------------------------------------------
-        // ADD UPDATED ITEMS
+        // ADD UPDATED ITEMS + DEDUCT NEW PRODUCT STOCK
         // --------------------------------------------------------
 
         for (OrderItemRequestDto itemRequest
@@ -340,6 +418,22 @@ public class OrderServiceImpl implements OrderService {
                                         "Product not found"
                                 ));
 
+                validateActiveProduct(product);
+
+                // Check stock after restoring the old order stock.
+                validateProductStock(
+                        product,
+                        itemRequest.getQuantity()
+                );
+
+                // Deduct the NEW quantity.
+                product.setStockQuantity(
+                        product.getStockQuantity()
+                                - itemRequest.getQuantity()
+                );
+
+                productRepository.save(product);
+
                 orderItem.setProduct(product);
                 orderItem.setLens(null);
             }
@@ -360,6 +454,18 @@ public class OrderServiceImpl implements OrderService {
                                 ));
 
                 validateActiveLens(lens);
+                validateLensStock(
+                        lens,
+                        itemRequest.getQuantity()
+                );
+
+                // Deduct the NEW lens quantity after the old order
+                // quantities have already been restored above.
+                lens.setStock(
+                        lens.getStock() - itemRequest.getQuantity()
+                );
+
+                lensRepository.save(lens);
 
                 orderItem.setLens(lens);
                 orderItem.setProduct(null);
@@ -468,6 +574,51 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // ============================================================
+    // VALIDATE ACTIVE PRODUCT
+    // ============================================================
+
+    private void validateActiveProduct(Product product) {
+
+        if (product.getStatus() == null
+                || !"Active".equalsIgnoreCase(product.getStatus())) {
+
+            throw new RuntimeException(
+                    "Selected product is inactive and cannot be added to receipt."
+            );
+        }
+    }
+
+    // ============================================================
+    // VALIDATE PRODUCT STOCK
+    // ============================================================
+
+    private void validateProductStock(
+            Product product,
+            Integer requestedQuantity) {
+
+        Integer availableStock = product.getStockQuantity();
+
+        if (availableStock == null || availableStock <= 0) {
+
+            throw new RuntimeException(
+                    "Product "
+                            + product.getProductName()
+                            + " is out of stock."
+            );
+        }
+
+        if (requestedQuantity > availableStock) {
+
+            throw new RuntimeException(
+                    "Insufficient stock for "
+                            + product.getProductName()
+                            + ". Available stock: "
+                            + availableStock
+            );
+        }
+    }
+
+    // ============================================================
     // VALIDATE ACTIVE LENS
     // ============================================================
 
@@ -478,6 +629,36 @@ public class OrderServiceImpl implements OrderService {
 
             throw new RuntimeException(
                     "Selected lens is inactive and cannot be added to receipt."
+            );
+        }
+    }
+
+    // ============================================================
+    // VALIDATE LENS STOCK
+    // ============================================================
+
+    private void validateLensStock(
+            Lens lens,
+            Integer requestedQuantity) {
+
+        Integer availableStock = lens.getStock();
+
+        if (availableStock == null || availableStock <= 0) {
+
+            throw new RuntimeException(
+                    "Lens "
+                            + lens.getBrand()
+                            + " is out of stock."
+            );
+        }
+
+        if (requestedQuantity > availableStock) {
+
+            throw new RuntimeException(
+                    "Insufficient stock for lens "
+                            + lens.getBrand()
+                            + ". Available stock: "
+                            + availableStock
             );
         }
     }
