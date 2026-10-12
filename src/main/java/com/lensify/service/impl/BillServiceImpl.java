@@ -176,61 +176,60 @@ public class BillServiceImpl implements BillService {
         return new ApiResponse<>(true, "Bill deleted successfully.", null);
     }
 
-    private BillResponseDto toDto(Bill bill) {
+    
+private BillResponseDto toDto(Bill bill) {
 
-        BillResponseDto dto = new BillResponseDto();
+    BillResponseDto dto = new BillResponseDto();
 
-        dto.setBillId(bill.getBillId());
+    dto.setBillId(bill.getBillId());
 
-        dto.setCustomerId(
-                bill.getCustomer() == null
-                        ? null
-                        : bill.getCustomer().getCustomerId()
-        );
+    Customer customer = bill.getCustomer();
 
-        dto.setCustomerName(
-                bill.getCustomer() == null
-                        ? null
-                        : bill.getCustomer().getCustomerName()
-        );
-
-        dto.setOrderId(
-                bill.getOrder() == null
-                        ? null
-                        : bill.getOrder().getOrderId()
-        );
-
-        dto.setBillDate(bill.getBillDate());
-
-        dto.setSubtotal(bill.getSubtotal());
-        dto.setDiscount(bill.getDiscount());
-        dto.setGst(bill.getGst());
-        dto.setTotal(bill.getTotal());
-
-        BigDecimal paidAmount = paymentRepository
-                .findByBillBillId(bill.getBillId())
-                .stream()
-                .map(payment -> payment.getAmount() == null
-                        ? BigDecimal.ZERO
-                        : payment.getAmount())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal total = bill.getTotal() == null
-                ? BigDecimal.ZERO
-                : bill.getTotal();
-
-        BigDecimal dueAmount = total.subtract(paidAmount);
-
-        if (dueAmount.compareTo(BigDecimal.ZERO) < 0) {
-            dueAmount = BigDecimal.ZERO;
-        }
-
-        dto.setPaidAmount(paidAmount);
-        dto.setDueAmount(dueAmount);
-
-        dto.setStatus(bill.getStatus());
-
-        return dto;
+    if (customer != null) {
+        dto.setCustomerId(customer.getCustomerId());
+        dto.setCustomerName(customer.getCustomerName());
+        dto.setMobileNumber(customer.getMobileNumber());
+        dto.setCity(customer.getCity());
     }
+
+    dto.setOrderId(
+        bill.getOrder() != null
+            ? bill.getOrder().getOrderId()
+            : null
+    );
+
+    dto.setBillDate(bill.getBillDate());
+    dto.setSubtotal(bill.getSubtotal());
+    dto.setDiscount(bill.getDiscount());
+    dto.setGst(bill.getGst());
+    dto.setTotal(bill.getTotal());
+
+    BigDecimal paidAmount = paymentRepository
+        .findByBillBillId(bill.getBillId())
+        .stream()
+        .map(payment ->
+            payment.getAmount() == null
+                ? BigDecimal.ZERO
+                : payment.getAmount()
+        )
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    BigDecimal total = bill.getTotal() == null
+        ? BigDecimal.ZERO
+        : bill.getTotal();
+
+    BigDecimal dueAmount = total.subtract(paidAmount);
+
+    if (dueAmount.compareTo(BigDecimal.ZERO) < 0) {
+        dueAmount = BigDecimal.ZERO;
+    }
+
+    dto.setPaidAmount(paidAmount);
+    dto.setDueAmount(dueAmount);
+    dto.setStatus(bill.getStatus());
+
+    return dto;
+}
+
 
 }

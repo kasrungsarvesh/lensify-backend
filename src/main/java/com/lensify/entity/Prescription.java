@@ -2,6 +2,7 @@ package com.lensify.entity;
 
 import java.time.LocalDate;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,9 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Entity
 @Table(name = "prescriptions")
@@ -94,4 +95,7 @@ public class Prescription extends BaseEntity {
 
     @Column(length = 500)
     private String remarks;
+   
+    
+    
 }

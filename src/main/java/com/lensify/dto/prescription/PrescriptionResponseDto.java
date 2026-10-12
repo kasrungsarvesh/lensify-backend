@@ -29,6 +29,8 @@ public class PrescriptionResponseDto {
 
 
     private String customerName;
+    private String mobileNumber;
+    private String city;
 
     // =========================
     // PRESCRIPTION INFORMATION
@@ -91,4 +93,5 @@ public class PrescriptionResponseDto {
     // =========================
 
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

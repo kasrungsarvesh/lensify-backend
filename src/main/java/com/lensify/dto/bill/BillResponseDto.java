@@ -20,6 +20,8 @@ public class BillResponseDto {
     private Long customerId;
 
     private String customerName;
+    private String mobileNumber;
+    private String city;
 
     private Long orderId;
 

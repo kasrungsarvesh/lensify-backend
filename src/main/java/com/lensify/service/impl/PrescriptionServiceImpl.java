@@ -212,153 +212,84 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     // UPDATE PRESCRIPTION
     // =====================================================
 
-    @Override
-    public ApiResponse<PrescriptionResponseDto> updatePrescription(
-            Long id,
-            PrescriptionRequestDto request) {
 
-        Prescription prescription =
-                prescriptionRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Prescription not found."
-                                )
-                        );
+@Override
+public ApiResponse<PrescriptionResponseDto> updatePrescription(
+        Long id,
+        PrescriptionRequestDto request) {
 
-        // Customer
-        if (request.getCustomerId() != null &&
-                !request.getCustomerId().equals(
-                        prescription.getCustomer().getCustomerId()
-                )) {
-
-            Customer customer =
-                    customerRepository.findById(
-                            request.getCustomerId()
-                    ).orElseThrow(() ->
+    Prescription prescription =
+            prescriptionRepository.findById(id)
+                    .orElseThrow(() ->
                             new RuntimeException(
-                                    "Customer not found."
+                                    "Prescription not found."
                             )
                     );
 
-            prescription.setCustomer(customer);
-        }
+    // Customer
+    if (request.getCustomerId() != null &&
+            !request.getCustomerId().equals(
+                    prescription.getCustomer().getCustomerId()
+            )) {
 
-        // Prescription Information
-        if (request.getPrescriptionDate() != null) {
-            prescription.setPrescriptionDate(
-                    request.getPrescriptionDate()
-            );
-        }
+        Customer customer =
+                customerRepository.findById(
+                        request.getCustomerId()
+                ).orElseThrow(() ->
+                        new RuntimeException(
+                                "Customer not found."
+                        )
+                );
 
-        if (request.getDoctorName() != null) {
-            prescription.setDoctorName(
-                    request.getDoctorName()
-            );
-        }
+        prescription.setCustomer(customer);
+    }
 
-        // Right Eye
-        if (request.getRightEyeSph() != null) {
-            prescription.setRightEyeSph(
-                    request.getRightEyeSph()
-            );
-        }
-
-        if (request.getRightEyeCyl() != null) {
-            prescription.setRightEyeCyl(
-                    request.getRightEyeCyl()
-            );
-        }
-
-        if (request.getRightEyeAxis() != null) {
-            prescription.setRightEyeAxis(
-                    request.getRightEyeAxis()
-            );
-        }
-
-        if (request.getRightEyeVa() != null) {
-            prescription.setRightEyeVa(
-                    request.getRightEyeVa()
-            );
-        }
-
-        // Left Eye
-        if (request.getLeftEyeSph() != null) {
-            prescription.setLeftEyeSph(
-                    request.getLeftEyeSph()
-            );
-        }
-
-        if (request.getLeftEyeCyl() != null) {
-            prescription.setLeftEyeCyl(
-                    request.getLeftEyeCyl()
-            );
-        }
-
-        if (request.getLeftEyeAxis() != null) {
-            prescription.setLeftEyeAxis(
-                    request.getLeftEyeAxis()
-            );
-        }
-
-        if (request.getLeftEyeVa() != null) {
-            prescription.setLeftEyeVa(
-                    request.getLeftEyeVa()
-            );
-        }
-
-        // PD
-        if (request.getPdDistance() != null) {
-            prescription.setPdDistance(
-                    request.getPdDistance()
-            );
-        }
-
-        if (request.getPdNear() != null) {
-            prescription.setPdNear(
-                    request.getPdNear()
-            );
-        }
-
-        // Lens
-        if (request.getLensType() != null) {
-            prescription.setLensType(
-                    request.getLensType()
-            );
-        }
-
-        if (request.getLensIndex() != null) {
-            prescription.setLensIndex(
-                    request.getLensIndex()
-            );
-        }
-
-        if (request.getCoating() != null) {
-            prescription.setCoating(
-                    request.getCoating()
-            );
-        }
-
-        // Remarks
-        if (request.getRemarks() != null) {
-            prescription.setRemarks(
-                    request.getRemarks()
-            );
-        }
-
-        prescription =
-                prescriptionRepository.save(prescription);
-
-        log.info(
-                "Prescription updated successfully. prescriptionId={}",
-                prescription.getPrescriptionId()
-        );
-
-        return new ApiResponse<>(
-                true,
-                "Prescription updated successfully.",
-                toDto(prescription)
+    // Prescription Information
+    if (request.getPrescriptionDate() != null) {
+        prescription.setPrescriptionDate(
+                request.getPrescriptionDate()
         );
     }
+
+    prescription.setDoctorName(request.getDoctorName());
+
+    // Right Eye
+    prescription.setRightEyeSph(request.getRightEyeSph());
+    prescription.setRightEyeCyl(request.getRightEyeCyl());
+    prescription.setRightEyeAxis(request.getRightEyeAxis());
+    prescription.setRightEyeVa(request.getRightEyeVa());
+
+    // Left Eye
+    prescription.setLeftEyeSph(request.getLeftEyeSph());
+    prescription.setLeftEyeCyl(request.getLeftEyeCyl());
+    prescription.setLeftEyeAxis(request.getLeftEyeAxis());
+    prescription.setLeftEyeVa(request.getLeftEyeVa());
+
+    // Pupillary Distance (PD)
+    prescription.setPdDistance(request.getPdDistance());
+    prescription.setPdNear(request.getPdNear());
+
+    // Lens Details
+    prescription.setLensType(request.getLensType());
+    prescription.setLensIndex(request.getLensIndex());
+    prescription.setCoating(request.getCoating());
+
+    // Remarks
+    prescription.setRemarks(request.getRemarks());
+
+    prescription = prescriptionRepository.save(prescription);
+
+    log.info(
+            "Prescription updated successfully. prescriptionId={}",
+            prescription.getPrescriptionId()
+    );
+
+    return new ApiResponse<>(
+            true,
+            "Prescription updated successfully.",
+            toDto(prescription)
+    );
+}
 
     // =====================================================
     // DELETE PRESCRIPTION
@@ -393,108 +324,60 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     // ENTITY → DTO
     // =====================================================
 
-    private PrescriptionResponseDto toDto(
-            Prescription prescription) {
+   private PrescriptionResponseDto toDto(Prescription prescription) {
 
-        PrescriptionResponseDto dto =
-                new PrescriptionResponseDto();
+    PrescriptionResponseDto dto = new PrescriptionResponseDto();
 
-        dto.setPrescriptionId(
-                prescription.getPrescriptionId()
-        );
+    dto.setPrescriptionId(prescription.getPrescriptionId());
 
-        if (prescription.getCustomer() != null) {
+    // Customer Information
+    Customer customer = prescription.getCustomer();
 
-            dto.setCustomerId(
-                    prescription.getCustomer().getCustomerId()
-            );
-            dto.setCustomerCode(
-            		prescription.getCustomer() == null ? null : prescription.getCustomer().getCustomerCode()
-            	);
+    if (customer != null) {
+        dto.setCustomerId(customer.getCustomerId());
+        dto.setCustomerCode(customer.getCustomerCode());
+        dto.setCustomerName(customer.getCustomerName());
 
-
-            dto.setCustomerName(
-                    prescription.getCustomer().getCustomerName()
-            );
-        }
-
-        // Prescription Information
-        dto.setPrescriptionDate(
-                prescription.getPrescriptionDate()
-        );
-
-        dto.setDoctorName(
-                prescription.getDoctorName()
-        );
-
-        // Right Eye
-        dto.setRightEyeSph(
-                prescription.getRightEyeSph()
-        );
-
-        dto.setRightEyeCyl(
-                prescription.getRightEyeCyl()
-        );
-
-        dto.setRightEyeAxis(
-                prescription.getRightEyeAxis()
-        );
-
-        dto.setRightEyeVa(
-                prescription.getRightEyeVa()
-        );
-
-        // Left Eye
-        dto.setLeftEyeSph(
-                prescription.getLeftEyeSph()
-        );
-
-        dto.setLeftEyeCyl(
-                prescription.getLeftEyeCyl()
-        );
-
-        dto.setLeftEyeAxis(
-                prescription.getLeftEyeAxis()
-        );
-
-        dto.setLeftEyeVa(
-                prescription.getLeftEyeVa()
-        );
-
-        // PD
-        dto.setPdDistance(
-                prescription.getPdDistance()
-        );
-
-        dto.setPdNear(
-                prescription.getPdNear()
-        );
-
-        // Lens
-        dto.setLensType(
-                prescription.getLensType()
-        );
-
-        dto.setLensIndex(
-                prescription.getLensIndex()
-        );
-
-        dto.setCoating(
-                prescription.getCoating()
-        );
-
-        // Remarks
-        dto.setRemarks(
-                prescription.getRemarks()
-        );
-
-        // Audit
-        dto.setCreatedAt(
-                prescription.getCreatedAt()
-        );
-
-        return dto;
+        // Add customer mobile number and city
+        dto.setMobileNumber(customer.getMobileNumber());
+        dto.setCity(customer.getCity());
     }
+
+    // Prescription Information
+    dto.setPrescriptionDate(prescription.getPrescriptionDate());
+    dto.setDoctorName(prescription.getDoctorName());
+
+    // Right Eye
+    dto.setRightEyeSph(prescription.getRightEyeSph());
+    dto.setRightEyeCyl(prescription.getRightEyeCyl());
+    dto.setRightEyeAxis(prescription.getRightEyeAxis());
+    dto.setRightEyeVa(prescription.getRightEyeVa());
+
+    // Left Eye
+    dto.setLeftEyeSph(prescription.getLeftEyeSph());
+    dto.setLeftEyeCyl(prescription.getLeftEyeCyl());
+    dto.setLeftEyeAxis(prescription.getLeftEyeAxis());
+    dto.setLeftEyeVa(prescription.getLeftEyeVa());
+
+    // Pupillary Distance
+    dto.setPdDistance(prescription.getPdDistance());
+    dto.setPdNear(prescription.getPdNear());
+
+    // Lens Information
+    dto.setLensType(prescription.getLensType());
+    dto.setLensIndex(prescription.getLensIndex());
+    dto.setCoating(prescription.getCoating());
+
+    // Remarks
+    dto.setRemarks(prescription.getRemarks());
+
+    // Audit
+    dto.setCreatedAt(prescription.getCreatedAt());
+    dto.setUpdatedAt(prescription.getUpdatedAt());
+
+    return dto;
+}
+    
     @Override
     public ApiResponse<Long> getPrescriptionCountByCustomer(Long customerId) {
 

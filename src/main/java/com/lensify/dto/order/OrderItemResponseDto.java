@@ -19,6 +19,8 @@ public class OrderItemResponseDto {
     private Long lensId;
     private String lensBrand;
 
+    private String description;
+
     private Integer quantity;
 
     private BigDecimal price;

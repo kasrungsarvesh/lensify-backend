@@ -38,7 +38,7 @@ public class PrescriptionRequestDto {
     // RIGHT EYE
     // =========================
 
-    @NotNull(message = "Right eye SPH is required.")
+  
     private Double rightEyeSph;
 
     private Double rightEyeCyl;
@@ -54,7 +54,7 @@ public class PrescriptionRequestDto {
     // LEFT EYE
     // =========================
 
-    @NotNull(message = "Left eye SPH is required.")
+   
     private Double leftEyeSph;
 
     private Double leftEyeCyl;

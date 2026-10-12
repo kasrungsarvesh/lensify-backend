@@ -102,6 +102,12 @@ public class OrderServiceImpl implements OrderService {
                 orderItem.setQuantity(itemRequest.getQuantity());
                 orderItem.setPrice(itemRequest.getPrice());
 
+                orderItem.setDescription(
+                        itemRequest.getDescription() == null
+                                ? null
+                                : itemRequest.getDescription().trim()
+                );
+
                 // ------------------------------------------------
                 // PRODUCT / FRAME
                 // ------------------------------------------------
@@ -396,11 +402,19 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = new OrderItem();
 
             orderItem.setOrder(order);
+
             orderItem.setQuantity(
                     itemRequest.getQuantity()
             );
+
             orderItem.setPrice(
                     itemRequest.getPrice()
+            );
+
+            orderItem.setDescription(
+                    itemRequest.getDescription() == null
+                            ? null
+                            : itemRequest.getDescription().trim()
             );
 
             // ----------------------------------------------------
@@ -536,14 +550,39 @@ public class OrderServiceImpl implements OrderService {
             OrderItemRequestDto itemRequest) {
 
         // Neither product nor lens
-        if (itemRequest.getProductId() == null
-                && itemRequest.getLensId() == null) {
+    	boolean hasProduct = itemRequest.getProductId() != null;
 
-            throw new RuntimeException(
-                    "Either productId or lensId is required"
-            );
-        }
+    	boolean hasLens = itemRequest.getLensId() != null;
 
+    	boolean hasDescription =
+    	        itemRequest.getDescription() != null
+    	        && !itemRequest.getDescription().trim().isEmpty();
+
+    	int sources = 0;
+
+    	if (hasProduct) {
+    	    sources++;
+    	}
+
+    	if (hasLens) {
+    	    sources++;
+    	}
+
+    	if (hasDescription) {
+    	    sources++;
+    	}
+
+    	if (sources == 0) {
+    	    throw new RuntimeException(
+    	            "Product, lens or item description is required"
+    	    );
+    	}
+
+    	if (sources > 1) {
+    	    throw new RuntimeException(
+    	            "Only one of product, lens or item description can be provided"
+    	    );
+    	}
         // Both product and lens
         if (itemRequest.getProductId() != null
                 && itemRequest.getLensId() != null) {
@@ -766,6 +805,7 @@ public class OrderServiceImpl implements OrderService {
                             itemDto.setPrice(
                                     item.getPrice()
                             );
+                            itemDto.setDescription(item.getDescription());
 
                             return itemDto;
                         })

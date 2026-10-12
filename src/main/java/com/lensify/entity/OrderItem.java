@@ -31,6 +31,12 @@ public class OrderItem extends BaseEntity {
     @JoinColumn(name = "lens_id")
     private Lens lens;
 
+    /*
+     * Used for manually entered frame/lens details.
+     */
+    @Column(length = 500)
+    private String description;
+
     @Column(nullable = false)
     private Integer quantity;
 

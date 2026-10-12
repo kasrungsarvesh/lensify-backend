@@ -46,6 +46,13 @@ public class CustomerRequestDto {
     @Email(message = "Invalid email.")
     private String email;
 
+    public void setEmail(String email) {
+        this.email =
+            email == null || email.trim().isEmpty()
+                ? null
+                : email.trim();
+    }
+
     private String address;
 
     private String city;
