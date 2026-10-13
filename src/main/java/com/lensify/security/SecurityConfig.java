@@ -501,11 +501,16 @@ public class SecurityConfig {
         CorsConfiguration configuration =
             new CorsConfiguration();
 
+  
         configuration.setAllowedOrigins(
             List.of(
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "https://lensify-7ylz.vercel.app",
+                "https://lensify-ecru.vercel.app",
+                "https://lensify-7ylz-git-main-kasrungsarveshs-projects.vercel.app"
             )
         );
+      
 
         configuration.setAllowedMethods(
             List.of(
